@@ -45,7 +45,36 @@ namespace App
         glVertex2f(startpos.x, endpos.y);
         glVertex2f(startpos.x, startpos.y);
         glEnd();
+
+		glBegin(GL_POINTS);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f((startpos.x + endpos.x) / 2, (startpos.y + endpos.y) / 2);
+		glEnd();
     }
+
+	void DrawQuadByPos(Vector2 pos, float width, float height, Vector3 rgb)
+	{
+#if APP_USE_VIRTUAL_RES		
+		APP_VIRTUAL_TO_NATIVE_COORDS(pos.x, pos.y);
+#endif
+
+		glBegin(GL_TRIANGLES);
+		glColor3f(rgb.x, rgb.y, rgb.z);
+		glVertex2f(pos.x - width / 2, pos.y - height / 2);
+		glVertex2f(pos.x + width / 2, pos.y - height / 2);
+		glVertex2f(pos.x + width / 2, pos.y + height / 2);
+
+		glVertex2f(pos.x + width / 2, pos.y + height / 2);
+		glVertex2f(pos.x - width / 2, pos.y + height / 2);
+		glVertex2f(pos.x - width / 2, pos.y - height / 2);
+		glEnd();
+
+		glBegin(GL_POINTS);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f(pos.x, pos.y);
+		glEnd();
+	}
+
     void DrawCircle(Vector2 pos, float radius, Vector3 rgb)
     {
 #if APP_USE_VIRTUAL_RES		

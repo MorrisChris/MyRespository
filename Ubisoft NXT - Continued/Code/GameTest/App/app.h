@@ -26,6 +26,7 @@ namespace App
 	//-------------------------------------------------------------------------------------------
 	void DrawLine( Vector2 startpos, Vector2 endpos, Vector3 rgb = Vector3(1.0f,1.0f,1.0f) );
     void DrawQuad(Vector2 startpos, Vector2 endpos, Vector3 rgb);
+	void DrawQuadByPos(Vector2 pos, float width, float height, Vector3 rgb);
     void DrawCircle(Vector2 pos, float radius, Vector3 rgb);
 	//-------------------------------------------------------------------------------------------
 	// void Print(float x, float y, const char *text, float r = 1.0f, float g = 1.0f, float b = 1.0f, void *font = GLUT_BITMAP_HELVETICA_18);
