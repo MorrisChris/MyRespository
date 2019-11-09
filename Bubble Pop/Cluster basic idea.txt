@@ -1,0 +1,20 @@
+Check off initial ball. Check all balls from each one added but skip if it's already added.
+Have some sort of cluster making state while calculating a cluster.
+When a cluster has completed calculating, destroy the entire thing.
+
+Pseudocode
+
+
+List<Ball> m_BallsInCluster
+
+CreateCluster(
+
+AddBall(Vec2Int StartIndex, Vec2Int NextIndex, ref Cluster)
+{
+//if(!(Ball) in cluster)
+//m_BallInCluster.Add(Ball)
+}
+
+CheckValidIndex(Vec2Int Index)
+{
+//if(
