@@ -153,8 +153,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   I_Damage: 30
-  I_FireRate: 430
+  I_FireRate: 670
+  I_Capacity: 30
+  I_AmmoInGun: 31
   FM_FireMode: 0
+  CurrentState: 0
+  F_ReloadTime: 2.3
+  F_TacReloadTime: 2.8
+  _v2_Recoil: {x: 0, y: 0}
+  _f_MaxVerticalRecoil: 0.1
+  _f_MinVerticalRecoil: 0.1
+  _f_MaxHorizontalRecoil: 0
+  _f_MinHorizontalRecoil: 0
+  WeaponTransform: {fileID: 0}
 --- !u!65 &90268241
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -996,7 +1007,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305987705}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 

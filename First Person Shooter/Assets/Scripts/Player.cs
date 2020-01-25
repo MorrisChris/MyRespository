@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
         RB_PhysicsBody = GetComponent<Rigidbody>();
 
         T_HeadTransform = GetComponentInChildren<Head>().transform;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -60,7 +62,15 @@ public class Player : MonoBehaviour
     {
         if(_pc_Controller.Fire() == ButtonState.ButtonState_Held)
         {
-            CurrentWeapon.FullAuto();
+            CurrentWeapon.Shoot();
+        }
+        if(_pc_Controller.Fire() == ButtonState.ButtonState_Pressed)
+        {
+            CurrentWeapon.Shoot();
+        }
+        if(_pc_Controller.Reload())
+        {
+            CurrentWeapon.Reload();
         }
     }
 }

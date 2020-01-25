@@ -56,4 +56,9 @@ public class PlayerController
             return ButtonState.ButtonState_Released;
         }
     }
+
+    public bool Reload()
+    {
+        return Input.GetKey(KeyCode.R);
+    }
 }
