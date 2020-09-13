@@ -38,11 +38,12 @@ public class Weapon : MonoBehaviour
     float _f_TimeToReload;
 
     public Vector2 _v2_Recoil;
+    public float _f_MaxVerticalRecoilPerShot;
+    public float _f_MinVerticalRecoilPerShot;
     public float _f_MaxVerticalRecoil;
-    public float _f_MinVerticalRecoil;
-    public float _f_MaxHorizontalRecoil;
-    public float _f_MinHorizontalRecoil;
     public Transform WeaponTransform;
+
+    float recoilSmoothing;
 
 
     // Start is called before the first frame update
@@ -52,6 +53,8 @@ public class Weapon : MonoBehaviour
         CurrentState = WeaponState.Weapon_Ready;
         _v2_Recoil = Vector2.zero;
         WeaponTransform = transform.parent.transform;
+
+        recoilSmoothing = _f_TimeBetweenShots * 100000;
     }
 
     // Update is called once per frame
@@ -74,7 +77,7 @@ public class Weapon : MonoBehaviour
                 {
                     I_AmmoInGun = I_Capacity;
                 }
-                if(I_AmmoInGun > 0)
+                else if(I_AmmoInGun > 0)
                 {
                     I_AmmoInGun = I_Capacity + 1;
                 }
@@ -83,7 +86,7 @@ public class Weapon : MonoBehaviour
             }
         }
 
-        ApplyVerticalRecoil();
+        _v2_Recoil.y -= Time.deltaTime * recoilSmoothing;
     }
 
     public void Shoot()
@@ -91,7 +94,6 @@ public class Weapon : MonoBehaviour
         if (TimeToNextShot < Time.time && CurrentState == WeaponState.Weapon_Ready)
         {
             TimeToNextShot = Time.time + _f_TimeBetweenShots;
-            StartCoroutine(ShootAffect());
 
             Vector3 StartPoint = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
 
@@ -121,8 +123,9 @@ public class Weapon : MonoBehaviour
             }
 
             I_AmmoInGun--;
-            _v2_Recoil.y += Random.Range(_f_MinVerticalRecoil, _f_MaxVerticalRecoil);
-            _v2_Recoil.x += Random.Range(_f_MinHorizontalRecoil, _f_MaxHorizontalRecoil);
+            float recoilAmount = Random.Range(_f_MinVerticalRecoilPerShot, _f_MaxVerticalRecoilPerShot);
+            _v2_Recoil = WeaponTransform.eulerAngles + recoilAmount * Vector3.right;
+            ApplyVerticalRecoil();
         }
     }
 
@@ -144,23 +147,12 @@ public class Weapon : MonoBehaviour
 
     IEnumerator ShootAffect()
     {
-        yield return _f_TimeBetweenShots;
+        //put anything related to sound here
+        yield return 0;
     }
 
     public void ApplyVerticalRecoil()
     {
-        if(_v2_Recoil.y > 0 || _v2_Recoil.y < 0)
-        {
-            Quaternion maxRecoil = Quaternion.Euler(_v2_Recoil.y, 0, 0);
-            WeaponTransform.rotation = Quaternion.Slerp(WeaponTransform.rotation, maxRecoil, Time.deltaTime * _f_TimeBetweenShots);
-            _v2_Recoil.y -= Time.deltaTime;
-        }
-        else
-        {
-            _v2_Recoil.y = 0;
-            Quaternion minRecoil = Quaternion.Euler(0, 0, 0);
-            WeaponTransform.rotation = Quaternion.Slerp(WeaponTransform.rotation, minRecoil, Time.deltaTime / 2);
-
-        }
+        WeaponTransform.eulerAngles = Vector3.Lerp(WeaponTransform.eulerAngles, _v2_Recoil, recoilSmoothing * Time.deltaTime);
     }
 }
